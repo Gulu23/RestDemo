@@ -80,7 +80,7 @@ public class GroupWebservice {
 	@Path("/getGroup/xml")
 	@Produces(MediaType.TEXT_XML)
 	public Response getGroup(@Context UriInfo info) {
-      int id=Integer.parseInt(info.getQueryParameters().getFirst("id"));
+		int id = Integer.parseInt(info.getQueryParameters().getFirst("id"));
 		// dao.insertData();
 		IGroupService grService = new GroupServiceImpl();
 		Groups groups = new Groups();
@@ -89,18 +89,15 @@ public class GroupWebservice {
 		GroupJaxb grpsJaxb = getJaxbGroups(grp);
 		grpsJaxbList.add(grpsJaxb);
 		groups.setGroup(grpsJaxbList);
-		
-		
+
 		return Response.status(200).entity(groups).build();
 	}
-	
-	
-	
+
 	@GET
 	@Path("/getGroup/json")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getGroupJson(@Context UriInfo info) {
-int id=Integer.parseInt(info.getQueryParameters().getFirst("id"));
+		int id = Integer.parseInt(info.getQueryParameters().getFirst("id"));
 		// dao.insertData();
 		IGroupService grService = new GroupServiceImpl();
 		Groups groups = new Groups();
@@ -109,7 +106,7 @@ int id=Integer.parseInt(info.getQueryParameters().getFirst("id"));
 		GroupJaxb grpsJaxb = getJaxbGroups(grp);
 		grpsJaxbList.add(grpsJaxb);
 		groups.setGroup(grpsJaxbList);
-		
+
 		return Response.status(200).entity(groups).build();
 	}
 
@@ -121,30 +118,40 @@ int id=Integer.parseInt(info.getQueryParameters().getFirst("id"));
 
 		IGroupService grService = new GroupServiceImpl();
 
-		Group grp= grService.insertData(getGroup());
+		Group grp = grService.insertData(getGroup());
 		return Response.status(201).entity(grp).build();
 
 	}
+
 	@DELETE
 	@Path("/deleteGroup")
-	public void deleteGroup() {
+	public Response deleteGroup() {
 		IGroupService grService = new GroupServiceImpl();
 		grService.deleteData(123);
+		return Response.status(204).entity("").build();
+	}
+	@DELETE
+	@Path("/deleteGroupbyId")
+	public Response deleteGroupbyId(@Context UriInfo info) {
+		int id = Integer.parseInt(info.getQueryParameters().getFirst("id"));
+		IGroupService grService = new GroupServiceImpl();
+		grService.deleteData(id);
+		return Response.status(204).entity("").build();
+		
 	}
 	@PUT
 	@Path("/updateGroup")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addGroupInJSON(@Context UriInfo info) {
-		int id=Integer.parseInt(info.getQueryParameters().getFirst("id"));
+		int id = Integer.parseInt(info.getQueryParameters().getFirst("id"));
 
 		IGroupService grService = new GroupServiceImpl();
 
-		grService.updateData(id);
-		return Response.status(204).entity("").build();
+		Group grp=grService.updateData(id);
+		return Response.status(200).entity(grp).build();
 
 	}
-	
 
 	private String convertDatetoString(Date date) {
 		String DATE_FORMAT_NOW = "yyyy-MM-dd";
@@ -160,7 +167,6 @@ int id=Integer.parseInt(info.getQueryParameters().getFirst("id"));
 		}
 		return stringDate;
 	}
-	
 
 	private Date CovertStringToDate(String dateInString) {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
@@ -185,8 +191,8 @@ int id=Integer.parseInt(info.getQueryParameters().getFirst("id"));
 		GroupJaxb gr = new GroupJaxb();
 		gr.setBpa_id(grp.getBpa_id());
 		gr.setGroup_Number(grp.getGroup_Number());
-		gr.setBpa_effect_frm_dt(gr.getBpa_effect_frm_dt());
-		gr.setBpa_effect_to_dt(gr.getBpa_effect_to_dt());
+		gr.setBpa_effect_frm_dt(grp.getBpa_effect_frm_dt());
+		gr.setBpa_effect_to_dt(grp.getBpa_effect_to_dt());
 
 		List<BillAccountJaxb> billJaxbList = new ArrayList<>();
 
@@ -194,6 +200,7 @@ int id=Integer.parseInt(info.getQueryParameters().getFirst("id"));
 			BillAccountJaxb billJaxb = new BillAccountJaxb();
 			billJaxb.setBlla_id(blla.getBlla_id());
 			billJaxb.setName(blla.getName());
+			billJaxb.setBpa_id(blla.getBpa_id());
 			billJaxb.setBlla_effct_frm_dt(blla.getBlla_effct_frm_dt());
 			billJaxb.setBlla_effct_to_dt(blla.getBlla_effct_to_dt());
 			List<BillHistoryJaxb> bhiJaxbList = new ArrayList<>();
@@ -212,38 +219,37 @@ int id=Integer.parseInt(info.getQueryParameters().getFirst("id"));
 		gr.setBillaccountList(billJaxbList);
 		return gr;
 	}
-	
-	private GroupJaxb  getGroup(){
-	 GroupJaxb grp1 = new GroupJaxb();
-	 grp1.setBpa_id(555);
-        grp1.setBpa_effect_frm_dt(new Date("01-Jan-2015"));
-        grp1.setBpa_effect_to_dt(new Date("31-Dec-2015"));
-        grp1.setGroup_Number(1720L);
-        
-        BillAccountJaxb blla3 = new BillAccountJaxb();
-        
-        blla3.setBlla_id(1111);
-        blla3.setBlla_effct_frm_dt(new Date("01-Jan-2015"));
-        blla3.setBlla_effct_to_dt(new Date("31-Dec-2015"));
-       blla3.setBpa_id(555);
-        blla3.setName("Vinay");
-        
-        BillHistoryJaxb bhi3 = new BillHistoryJaxb();
-        
-    bhi3.setBhi_id(22222);
-        bhi3.setBhi_effct_frm_dt(new Date("01-Jan-2015"));
-        bhi3.setBhi_effct_to_dt(new Date("31-Jan-2015"));
-        bhi3.setBlla_id(1111);
-        
-        List<BillHistoryJaxb> billHistroyList3 = new ArrayList<>();
-        billHistroyList3.add(bhi3);
-        blla3.setBillHistoryList(billHistroyList3);
-        
-       
-        List<BillAccountJaxb> billaccountList2 = new ArrayList<>(); 
-        billaccountList2.add(blla3);
-        
-        grp1.setBillaccountList(billaccountList2);
+
+	private GroupJaxb getGroup() {
+		GroupJaxb grp1 = new GroupJaxb();
+		grp1.setBpa_id(555);
+		grp1.setBpa_effect_frm_dt(new Date("01-Jan-2015"));
+		grp1.setBpa_effect_to_dt(new Date("31-Dec-2015"));
+		grp1.setGroup_Number(1720L);
+
+		BillAccountJaxb blla3 = new BillAccountJaxb();
+
+		blla3.setBlla_id(1111);
+		blla3.setBlla_effct_frm_dt(new Date("01-Jan-2015"));
+		blla3.setBlla_effct_to_dt(new Date("31-Dec-2015"));
+		blla3.setBpa_id(555);
+		blla3.setName("Vinay");
+
+		BillHistoryJaxb bhi3 = new BillHistoryJaxb();
+
+		bhi3.setBhi_id(22222);
+		bhi3.setBhi_effct_frm_dt(new Date("01-Jan-2015"));
+		bhi3.setBhi_effct_to_dt(new Date("31-Jan-2015"));
+		bhi3.setBlla_id(1111);
+
+		List<BillHistoryJaxb> billHistroyList3 = new ArrayList<>();
+		billHistroyList3.add(bhi3);
+		blla3.setBillHistoryList(billHistroyList3);
+
+		List<BillAccountJaxb> billaccountList2 = new ArrayList<>();
+		billaccountList2.add(blla3);
+
+		grp1.setBillaccountList(billaccountList2);
 		return grp1;
 	}
 }

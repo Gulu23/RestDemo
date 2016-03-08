@@ -30,6 +30,7 @@ public class DataOperationsServiceImpl extends EntityManagerUtil implements Data
 		entityManager=em;
 		entityManager.getTransaction().begin();
         entityManager.persist(group);
+        entityManager.getTransaction().commit();
          result = entityManager.find(Group.class, group.getBpa_id());
 		}
         catch (Exception e) {
@@ -83,7 +84,7 @@ public class DataOperationsServiceImpl extends EntityManagerUtil implements Data
 	public Group updateData(int bpaId) {
 		Group ressult=null;
 		try{
-			retrieveAll();
+			//retrieveAll();
 		entityManager =entityManagerFactory.createEntityManager();
 		entityManager.getTransaction().begin();
 		Query query = 	 entityManager.createNamedQuery("Group.findbyId").setParameter("bpa_id", bpaId);
@@ -113,7 +114,7 @@ public class DataOperationsServiceImpl extends EntityManagerUtil implements Data
 		//entityManager = entityManagerFactory.createEntityManager();
 		
 		try{
-			retrieveAll();
+		//	retrieveAll();
 		entityManager =entityManagerFactory.createEntityManager();
 		entityManager.getTransaction().begin();
 		Group result = entityManager.find(Group.class, grpNo);

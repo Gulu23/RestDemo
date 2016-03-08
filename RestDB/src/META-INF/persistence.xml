@@ -10,7 +10,7 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
   
   <properties>
    <!--  <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/satya" /> -->
-    <property name="javax.persistence.jdbc.url" value= "jdbc:hsqldb:hsql://localhost/restDb"/>                <!--   "jdbc:hsqldb:file:sample" /> -->
+    <property name="javax.persistence.jdbc.url" value= "jdbc:hsqldb:hsql://localhost/restfuldb"/>                <!--   "jdbc:hsqldb:file:sample" /> mem:-jdbc:hsqldb:mem:restDb  jdbc:hsqldb:hsql://localhost/restDb-->
     
     <property name="javax.persistence.jdbc.user" value="sa" />
     <property name="javax.persistence.jdbc.password" value="" />
@@ -21,7 +21,7 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
    <!--  <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" /> -->
     
                 <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/> 
-    <property name="hibernate.hbm2ddl.auto" value="create" />
+    <property name="hibernate.hbm2ddl.auto" value="update" />
     <!-- Configuring Connection Pool -->
     <property name="hibernate.c3p0.min_size" value="5" />
     <property name="hibernate.c3p0.max_size" value="20" />

@@ -6,7 +6,7 @@
         <dependent-module archiveName="RestDB-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/RestDB/RestDB">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <property name="java-output-path" value="/RestWebService/build/classes"/>
         <property name="context-root" value="RestWebService"/>
+        <property name="java-output-path" value="/RestWebService/target/classes"/>
     </wb-module>
 </project-modules>
